@@ -1,0 +1,32 @@
+[
+  {
+    "nome": "Basquete",
+    "descricao": "Esporte coletivo praticado por duas equipes de cinco jogadores que têm como objetivo acertar a bola na cesta do adversário.",
+    "imagem": "basquete",
+    "icon": "basketball-ball"
+  },
+  {
+    "nome": "Futebol",
+    "descricao": "Esporte coletivo jogado entre duas equipes de onze jogadores cada, cujo objetivo é marcar gols contra o adversário.",
+    "imagem": "futebol",
+    "icon": "futbol"
+  },
+  {
+    "nome": "Vôlei",
+    "descricao": "Esporte coletivo em que duas equipes se enfrentam em uma quadra dividida por uma rede, tentando fazer a bola tocar o chão da quadra adversária.",
+    "imagem": "volei",
+    "icon": "volleyball-ball"
+  },
+  {
+    "nome": "Natação",
+    "descricao": "Esporte individual ou coletivo que consiste em se deslocar na água utilizando diferentes estilos como livre , costas, peito e borboleta.",
+    "imagem": "natacao",
+    "icon": "swimmer"
+  },
+  {
+    "nome": "Atletismo",
+    "descricao": "Conjunto de modalidades esportivas que envolvem corrida, saltos, arremessos e lançamentos.",
+    "imagem": "atletismo",
+    "icon": "running"
+  }
+]
