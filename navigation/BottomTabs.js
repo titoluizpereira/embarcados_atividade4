@@ -3,7 +3,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import StatusScreen from '../screens/StatusScreen';
+import HomeScreen from '../screens/HomeScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import ConfigScreen from '../screens/ConfigScreen';
 
@@ -12,7 +12,7 @@ import { tabsTheme, tabBarStyles } from '../theme/tabs.styles';
 const Tab = createBottomTabNavigator();
 
 const TABS = [
-  { name: 'Status',    component: StatusScreen,  icon: 'thermometer', iconOutline: 'thermometer-outline' },
+  { name: 'Início',    component: HomeScreen,    icon: 'home',        iconOutline: 'home-outline' },
   { name: 'Histórico', component: HistoryScreen, icon: 'list',        iconOutline: 'list-outline' },
   { name: 'Config.',   component: ConfigScreen,  icon: 'settings',    iconOutline: 'settings-outline' },
 ];
