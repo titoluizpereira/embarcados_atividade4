@@ -4,10 +4,11 @@
 // 1) CONFIGURAÇÃO
 // =============================
 
-// Coloque FALSE quando o backend estiver pronto
+// Enquanto estiver sem backend real:
 const USE_MOCK = true;
 
-// Quando USE_MOCK = false, ajuste aqui o IP da máquina do backend:
+// Quando o backend estiver pronto, coloque USE_MOCK = false
+// e ajuste o IP da máquina:
 const BASE_URL = 'http://SEU_IP_DA_MAQUINA:8000/api';
 
 
@@ -15,37 +16,38 @@ const BASE_URL = 'http://SEU_IP_DA_MAQUINA:8000/api';
 // 2) DADOS MOCKADOS
 // =============================
 
-let mockLimiarTemp = 28.0;
+let mockLimiarTemp = 28;
 
-let mockStatus = {
-  temperatura: 29.3,
-  umidade: 62.5,
-  limiar_temp: mockLimiarTemp,
-  timestamp: '2025-11-21 17:30',
-  dispositivo: 'esp8266-lab',
+let mockConfig = {
+  id: 1,
+  temp_min: mockLimiarTemp,
+  created_at: '2025-11-23T18:00:00Z',
 };
 
-let mockLogs = [
+let mockRegisters = [
   {
     id: 1,
-    temperatura: 27.8,
-    umidade: 60.1,
-    timestamp: '2025-11-21 16:50',
-    dispositivo: 'esp8266-lab',
+    config: 1,
+    min_temp_configured: 28,
+    temperature: 27,
+    humidity: 60,
+    created_at: '2025-11-23T17:40:00Z',
   },
   {
     id: 2,
-    temperatura: 28.5,
-    umidade: 61.0,
-    timestamp: '2025-11-21 17:00',
-    dispositivo: 'esp8266-lab',
+    config: 1,
+    min_temp_configured: 28,
+    temperature: 28,
+    humidity: 61,
+    created_at: '2025-11-23T17:50:00Z',
   },
   {
     id: 3,
-    temperatura: 29.3,
-    umidade: 62.5,
-    timestamp: '2025-11-21 17:10',
-    dispositivo: 'esp8266-lab',
+    config: 1,
+    min_temp_configured: 28,
+    temperature: 29,
+    humidity: 62,
+    created_at: '2025-11-23T18:00:00Z',
   },
 ];
 
@@ -93,19 +95,15 @@ async function realPut(path, body) {
 
 async function apiGet(path) {
   if (USE_MOCK) {
-    // Mock para /status
-    if (path.startsWith('/status')) {
-      return Promise.resolve(mockStatus);
+    // Última configuração
+    if (path.startsWith('/config')) {
+      return Promise.resolve(mockConfig);
     }
 
-    // Mock para /logs
-    if (path.startsWith('/logs')) {
-      return Promise.resolve(mockLogs);
-    }
-
-    // Mock para /limiar_temp
-    if (path.startsWith('/limiar_temp')) {
-      return Promise.resolve({ limiar_temp: mockLimiarTemp });
+    // Lista de registros
+    if (path.startsWith('/register')) {
+      // se quiser um dia tratar ?limit, dá pra olhar path.includes('limit=')
+      return Promise.resolve(mockRegisters);
     }
   }
 
@@ -115,9 +113,35 @@ async function apiGet(path) {
 
 async function apiPost(path, body) {
   if (USE_MOCK) {
-    // Se quiser simular criação de logs quando o ESP mandar dados,
-    // dá pra brincar aqui depois.
     console.log('[MOCK] POST', path, body);
+
+    // Criar nova config
+    if (path.startsWith('/config')) {
+      if (typeof body.temp_min === 'number') {
+        mockLimiarTemp = body.temp_min;
+        mockConfig = {
+          id: mockConfig.id + 1,
+          temp_min: mockLimiarTemp,
+          created_at: new Date().toISOString(),
+        };
+      }
+      return Promise.resolve(mockConfig);
+    }
+
+    // Criar novo registro
+    if (path.startsWith('/register')) {
+      const novo = {
+        id: mockRegisters.length + 1,
+        config: mockConfig.id,
+        min_temp_configured: mockLimiarTemp,
+        temperature: body.temperature,
+        humidity: body.humidity,
+        created_at: new Date().toISOString(),
+      };
+      mockRegisters.push(novo);
+      return Promise.resolve(novo);
+    }
+
     return Promise.resolve({ ok: true, ...body });
   }
 
@@ -127,19 +151,7 @@ async function apiPost(path, body) {
 async function apiPut(path, body) {
   if (USE_MOCK) {
     console.log('[MOCK] PUT', path, body);
-
-    // Atualiza limiar em memória quando mudar via app
-    if (path.startsWith('/limiar_temp')) {
-      if (typeof body.limiar_temp === 'number') {
-        mockLimiarTemp = body.limiar_temp;
-        mockStatus = {
-          ...mockStatus,
-          limiar_temp: mockLimiarTemp,
-        };
-      }
-      return Promise.resolve({ limiar_temp: mockLimiarTemp });
-    }
-
+    // Hoje não precisamos de PUT nos mocks, mas deixo aqui
     return Promise.resolve({ ok: true, ...body });
   }
 
