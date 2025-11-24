@@ -1,20 +1,10 @@
 // services/api.js
 
-// =============================
-// 1) CONFIGURAÇÃO
-// =============================
+const USE_MOCK = true; // deixa true enquanto não estiver usando o backend real
 
-// Enquanto estiver sem backend real:
-const USE_MOCK = true;
-
-// Quando o backend estiver pronto, coloque USE_MOCK = false
-// e ajuste o IP da máquina:
 const BASE_URL = 'http://SEU_IP_DA_MAQUINA:8000/api';
 
-
-// =============================
-// 2) DADOS MOCKADOS
-// =============================
+// -------------------- MOCKS --------------------
 
 let mockLimiarTemp = 28;
 
@@ -29,32 +19,45 @@ let mockRegisters = [
     id: 1,
     config: 1,
     min_temp_configured: 28,
-    temperature: 27,
-    humidity: 60,
-    created_at: '2025-11-23T17:40:00Z',
+    temperature: 26.4,
+    humidity: 57.8,
+    created_at: '2025-11-23T17:20:00Z',
   },
   {
     id: 2,
     config: 1,
     min_temp_configured: 28,
-    temperature: 28,
-    humidity: 61,
-    created_at: '2025-11-23T17:50:00Z',
+    temperature: 27.1,
+    humidity: 59.3,
+    created_at: '2025-11-23T17:40:00Z',
   },
   {
     id: 3,
     config: 1,
     min_temp_configured: 28,
-    temperature: 29,
-    humidity: 62,
+    temperature: 28.0,
+    humidity: 61.0,
     created_at: '2025-11-23T18:00:00Z',
+  },
+  {
+    id: 4,
+    config: 1,
+    min_temp_configured: 28,
+    temperature: 29.2,
+    humidity: 62.4,
+    created_at: '2025-11-23T18:20:00Z',
+  },
+  {
+    id: 5,
+    config: 1,
+    min_temp_configured: 28,
+    temperature: 30.0,
+    humidity: 63.1,
+    created_at: '2025-11-23T18:40:00Z',
   },
 ];
 
-
-// =============================
-// 3) FUNÇÕES REAIS (fetch)
-// =============================
+// -------------------- REAIS (fetch) --------------------
 
 async function realGet(path) {
   const response = await fetch(`${BASE_URL}${path}`);
@@ -88,26 +91,21 @@ async function realPut(path, body) {
   return response.json();
 }
 
-
-// =============================
-// 4) API COM SUPORTE A MOCK
-// =============================
+// -------------------- API COM MOCK --------------------
 
 async function apiGet(path) {
   if (USE_MOCK) {
-    // Última configuração
+    // última configuração
     if (path.startsWith('/config')) {
       return Promise.resolve(mockConfig);
     }
 
-    // Lista de registros
+    // histórico
     if (path.startsWith('/register')) {
-      // se quiser um dia tratar ?limit, dá pra olhar path.includes('limit=')
       return Promise.resolve(mockRegisters);
     }
   }
 
-  // Modo real
   return realGet(path);
 }
 
@@ -115,7 +113,6 @@ async function apiPost(path, body) {
   if (USE_MOCK) {
     console.log('[MOCK] POST', path, body);
 
-    // Criar nova config
     if (path.startsWith('/config')) {
       if (typeof body.temp_min === 'number') {
         mockLimiarTemp = body.temp_min;
@@ -128,7 +125,6 @@ async function apiPost(path, body) {
       return Promise.resolve(mockConfig);
     }
 
-    // Criar novo registro
     if (path.startsWith('/register')) {
       const novo = {
         id: mockRegisters.length + 1,
@@ -151,7 +147,6 @@ async function apiPost(path, body) {
 async function apiPut(path, body) {
   if (USE_MOCK) {
     console.log('[MOCK] PUT', path, body);
-    // Hoje não precisamos de PUT nos mocks, mas deixo aqui
     return Promise.resolve({ ok: true, ...body });
   }
 

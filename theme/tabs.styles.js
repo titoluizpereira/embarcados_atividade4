@@ -5,7 +5,7 @@ import { colors } from './styles';
 export const tabsTheme = {
   active: colors.primary,
   inactive: colors.textMuted,
-  background: colors.surface,
+  background: '#FFFFFF',
   borderTop: colors.border,
 };
 

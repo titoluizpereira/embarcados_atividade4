@@ -11,10 +11,11 @@ export default function HistoryScreen() {
 
   async function carregarLeituras() {
     try {
-      const data = await apiGet('/logs?limit=50');
+      const data = await apiGet('/register');
       setLeituras(Array.isArray(data) ? data : []);
     } catch (err) {
       console.log(err);
+      setLeituras([]);
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -34,7 +35,9 @@ export default function HistoryScreen() {
     return (
       <View style={globalStyles.centered}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={{ color: colors.text, marginTop: 8 }}>Carregando histórico...</Text>
+        <Text style={{ color: colors.text, marginTop: 8 }}>
+          Carregando histórico...
+        </Text>
       </View>
     );
   }
@@ -52,20 +55,24 @@ export default function HistoryScreen() {
       renderItem={({ item }) => (
         <View style={globalStyles.listItem}>
           <Text style={globalStyles.listItemTitle}>
-            {item.temperatura.toFixed(1)} °C  ·  {item.umidade.toFixed(1)} %
+            {item.temperature.toFixed(1)} °C · {item.humidity.toFixed(1)} %
           </Text>
-          {item.timestamp && (
-            <Text style={globalStyles.listItemSubtitle}>{item.timestamp}</Text>
-          )}
-          {item.dispositivo && (
+          {item.created_at && (
             <Text style={globalStyles.listItemSubtitle}>
-              Dispositivo: {item.dispositivo}
+              {item.created_at}
+            </Text>
+          )}
+          {item.min_temp_configured != null && (
+            <Text style={globalStyles.listItemSubtitle}>
+              Limiar na leitura: {item.min_temp_configured} °C
             </Text>
           )}
         </View>
       )}
       ListEmptyComponent={
-        <Text style={{ color: colors.textMuted }}>Nenhuma leitura registrada ainda.</Text>
+        <Text style={{ color: colors.textMuted }}>
+          Nenhuma leitura registrada ainda.
+        </Text>
       }
     />
   );

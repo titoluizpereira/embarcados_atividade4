@@ -2,17 +2,17 @@
 import { StyleSheet } from 'react-native';
 
 export const colors = {
-  background: '#030712',     // fundo bem escuro
-  surface: '#020617',        // cartões / superfícies
-  surfaceSoft: '#0B1120',
-  primary: '#38BDF8',        // azul neon
-  primarySoft: '#0EA5E9',
-  accent: '#A855F7',         // roxo para detalhes
-  text: '#E5E7EB',
-  textMuted: '#9CA3AF',
-  border: '#1F2937',
-  danger: '#F97373',
-  success: '#22C55E',
+  background: '#F9FAFB',      // mais claro
+  surface: '#FFFFFF',
+  surfaceSoft: '#ECFEFF',     // leve azul/teal muito claro
+  primary: '#0D9488',         // teal
+  primarySoft: '#14B8A6',
+  accent: '#22C55E',          // verde
+  text: '#0F172A',
+  textMuted: '#6B7280',
+  border: '#E5E7EB',
+  danger: '#DC2626',
+  success: '#16A34A',
 };
 
 export const spacing = {
@@ -24,7 +24,7 @@ export const spacing = {
 };
 
 export const typography = {
-  title: 24,
+  title: 26,
   subtitle: 18,
   body: 14,
   small: 12,
@@ -44,12 +44,13 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: colors.background,
   },
 
+  // Títulos com um pouco mais de personalidade
   title: {
     fontSize: typography.title,
-    fontWeight: '700',
+    fontWeight: '800',
     color: colors.text,
-    letterSpacing: 0.5,
-    marginBottom: spacing.md,
+    letterSpacing: 0.8,
+    marginBottom: spacing.xs,
   },
 
   subtitle: {
@@ -59,17 +60,17 @@ export const globalStyles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: colors.surfaceSoft,
-    borderRadius: 16,
+    backgroundColor: colors.surface,
+    borderRadius: 18,
     padding: spacing.md,
     marginBottom: spacing.md,
     borderWidth: 1,
     borderColor: colors.border,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.4,
-    shadowRadius: 20,
-    elevation: 6,
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 3,
   },
 
   label: {
@@ -110,17 +111,17 @@ export const globalStyles = StyleSheet.create({
   },
 
   listItem: {
-    backgroundColor: colors.surfaceSoft,
-    borderRadius: 14,
+    backgroundColor: colors.surface,
+    borderRadius: 16,
     padding: spacing.md,
     marginBottom: spacing.sm,
     borderWidth: 1,
     borderColor: colors.border,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 4,
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 2,
   },
 
   listItemTitle: {
@@ -135,7 +136,7 @@ export const globalStyles = StyleSheet.create({
     color: colors.textMuted,
   },
 
-  // -------- estilos específicos para o menu de início --------
+  // Home
   homeLogoContainer: {
     alignItems: 'center',
     marginBottom: spacing.xl,
@@ -149,8 +150,8 @@ export const globalStyles = StyleSheet.create({
   },
 
   homeAppName: {
-    fontSize: 22,
-    fontWeight: '700',
+    fontSize: 24,
+    fontWeight: '800',
     color: colors.text,
     letterSpacing: 1,
   },
@@ -168,7 +169,7 @@ export const globalStyles = StyleSheet.create({
 
   menuButton: {
     backgroundColor: colors.surfaceSoft,
-    borderRadius: 14,
+    borderRadius: 16,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.lg,
     borderWidth: 1,
@@ -176,17 +177,17 @@ export const globalStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.35,
-    shadowRadius: 14,
-    elevation: 5,
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 2,
   },
 
   menuButtonText: {
     color: colors.text,
     fontSize: typography.subtitle,
-    fontWeight: '600',
+    fontWeight: '700',
   },
 
   menuButtonHint: {
